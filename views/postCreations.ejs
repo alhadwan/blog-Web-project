@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <title>Blog</title>
+</head>
+<body>
+  <%- include("partials/header.ejs") %>
+    <form class="m-5" action="/submit" method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Post Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+          </div>
+          <div class="mb-3">
+            <label for="content" class="form-label">Post content</label>
+            <textarea class="form-control" id="content" name="content" rows="4" placeholder="Write your story..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Publish</button>
+        </form>
+          <%- include("partials/footer.ejs") %>
+</body>
+</html>

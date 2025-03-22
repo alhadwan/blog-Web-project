@@ -1,7 +1,14 @@
 <%- include("partials/header.ejs") %>
 <%- //include("postCreations.ejs") %>
-<%if(locals.title || locals.content){%>
-    <h1><%=title%></h1>
-    <p><%=content%></p>
+<%if(locals.publish && locals.publish.length > 0){%>
+    <%publish.forEach((post)=>{%>
+        <div class="container">
+            <h1><%=post.title%></h1>
+            <p><%=post.content%></p>
+            <hr>
+        </div>
+        
+        <%});%>
+    
   <% }%>
 <%- include("partials/footer.ejs") %>

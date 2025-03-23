@@ -12,9 +12,8 @@ const postsFile = path.join(__dirname, "data", "posts.json");
 
 const app = express();
 const port = 3000;
-//const publish = [];
 
-
+//app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use('/bootstrap', express.static('node_modules/bootstrap/dist'));
@@ -49,6 +48,7 @@ app.post("/submit", (req,res)=>{
     fs.writeFileSync(postsFile, JSON.stringify(publish, null, 2));
        res.redirect("/");
    });
+   
 app.get("/edit/:id", (req,res) =>{
     // get id from the URL
     const id = Number(req.params.id); 
@@ -79,8 +79,24 @@ fs.writeFileSync(postsFile, JSON.stringify(publish, null, 2));
 
 //5.Redirect to /       
 res.redirect("/");
-
 });
+
+app.get("/delet/:id", (req,res)=>{
+// 1. Load All Posts from posts.json
+const data = fs.readFileSync(postsFile, "utf-8");
+const publish = JSON.parse(data);
+//2.Filter Out the Post with the Matching ID
+const id = Number(req.params.id); 
+const postToEdit = publish.filter(post => post.id !== id);
+//3. Save the Updated Post List Back to posts.json
+fs.writeFileSync(postsFile, JSON.stringify(postToEdit, null, 2));
+setTimeout(() => {
+    res.redirect("/");
+  }, 50);
+//4. Redirect Back to Home (/)
+res.redirect("/");
+});
+
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 });

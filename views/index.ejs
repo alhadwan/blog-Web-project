@@ -3,8 +3,11 @@
 <%if(locals.publish && locals.publish.length > 0){%>
     <%publish.forEach((post)=>{%>
         <div class="container">
+            <h6>ID: <%=post.id%></h6>
             <h1><%=post.title%></h1>
             <p><%=post.content%></p>
+            <!-- <button type="edit" class="btn btn-primary">Edit</button> -->
+             <a href="/edit/<%=post.id%>" class="btn btn-primary">Edit</a>
             <hr>
         </div>
         

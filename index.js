@@ -44,7 +44,7 @@ app.post("/submit", (req,res)=>{
 
     publish.push(posts);
 
-    // Save back to file
+    // Save back to file, stringify -> compress the file for more web readability
     fs.writeFileSync(postsFile, JSON.stringify(publish, null, 2));
        res.redirect("/");
    });
@@ -63,6 +63,7 @@ app.get("/edit/:id", (req,res) =>{
 app.post("/edit/:id", (req,res) =>{
 //1. Read posts.json ➝ get all posts
 const data = fs.readFileSync(postsFile, "utf-8");
+// parse -> decompress the file for us to read
 const publish = JSON.parse(data);
 
 //2. Find the post where post.id === id

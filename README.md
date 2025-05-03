@@ -1,6 +1,8 @@
 # BlogWeb
 A simple blog web app built with Node.js, Express, EJS, and Bootstrap. You can create, edit, and delete blog posts, all stored in a local JSON file.
 
+Live Demo: https://blogweb-6dmm.onrender.com
+
 # Features
 - Create a new blog post with a title and content
 - Edit existing posts

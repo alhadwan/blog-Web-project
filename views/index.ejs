@@ -1,16 +1,23 @@
-<%- include("partials/header.ejs") %>
-<%if(locals.publish && locals.publish.length > 0){%>
-    <%publish.forEach((post)=>{%>
-        <div class="container">
-            <h6>ID: <%=post.id%></h6>
-            <h1><%=post.title%></h1>
-            <p><%=post.content%></p>
-             <a href="/edit/<%=post.id%>" class="btn btn-primary">Edit</a>
-             <a href="/delet/<%= post.id%>" class="btn btn-danger">Delet</a>
-            <hr>
+
+
+  <%- include("partials/header") %>
+
+  <main class="container my-4">
+    <% if (publish && publish.length > 0) { %>
+      <% publish.forEach(post => { %>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h6 class="text-muted">ID: <%= post.id %></h6>
+            <h3 class="card-title"><%= post.title %></h3>
+            <p class="card-text"><%= post.content %></p>
+            <a href="/edit/<%= post.id %>" class="btn btn-primary me-2">Edit</a>
+            <a href="/delete/<%= post.id %>" class="btn btn-danger">Delete</a>
+          </div>
         </div>
-        
-        <%});%>
-    
-  <% }%>
-<%- include("partials/footer.ejs") %>
+      <% }) %>
+    <% } else { %>
+      <div class="alert alert-info">No posts found. Create a new one!</div>
+    <% } %>
+  </main>
+
+  <%- include("partials/footer") %>

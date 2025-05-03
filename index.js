@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import fsPromises from "fs/promises";
 
 //absolute Path to the JSON File
 const __filename = fileURLToPath(import.meta.url);
@@ -78,24 +79,40 @@ if (postToEdit) {
 //4.Write the entire updated array back to posts.json using fs.writeFileSync
 fs.writeFileSync(postsFile, JSON.stringify(publish, null, 2));
 
-//5.Redirect to /       
+//5.Redirect to home       
 res.redirect("/");
 });
 
-app.get("/delet/:id", (req,res)=>{
-// 1. Load All Posts from posts.json
-const data = fs.readFileSync(postsFile, "utf-8");
+app.get("/delete/:id", async (req,res)=>{
+  try{
+    // 1. Load All Posts from posts.json
+    const data = await fsPromises.readFile(postsFile, "utf-8");
 const publish = JSON.parse(data);
 //2.Filter Out the Post with the Matching ID
 const id = Number(req.params.id); 
 const postToEdit = publish.filter(post => post.id !== id);
+
+// Validate result
+if (!Array.isArray(postToEdit)) {
+  throw new Error("Invalid post data structure.");
+}
+
 //3. Save the Updated Post List Back to posts.json
-fs.writeFileSync(postsFile, JSON.stringify(postToEdit, null, 2));
-setTimeout(() => {
-    res.redirect("/");
-  }, 50);
-//4. Redirect Back to Home (/)
-res.redirect("/");
+await fsPromises.writeFile(postsFile, JSON.stringify(postToEdit, null, 2), "utf-8");
+
+console.log(`Deleted post ID ${id}`);
+
+// ignoring posts.json to:
+// Prevented nodemon from restarting mid-request
+// Kept the styles and static files fully intact
+// Made the app stable even during multiple delete operations
+
+  res.redirect("/");
+  }catch(error){
+    console.error("Delete failed:", error);
+    res.status(500).send("Internal Server Error: Could not delete post.");
+  }
+
 });
 
 app.listen(port, () => {
